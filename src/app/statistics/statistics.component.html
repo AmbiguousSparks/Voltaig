@@ -1,0 +1,63 @@
+<div class="container lg:columns-2 p-3 mx-auto border-2 w-100 shadow-md mt-5" *ngIf="stationsData">
+  <p-panel [toggleable]="false" *ngFor="let stationData of stationsData">
+    <ng-template pTemplate="header">
+      <div class="flex gap-4 align-center">
+        <p-avatar size="large" [image]="'https://static.hoymiles.com/cfs/' + stationData.pic_path"></p-avatar>
+        <span class="font-bold text-md text-center">{{ stationData.name }}</span>
+      </div>
+    </ng-template>
+    <div class="flex flex-col gap-1">
+      <div class="border-2 rounded p-2">
+        <p-fieldset legend="Details" [toggleable]="true">
+          <ul class="list-none" *ngIf="stationData.stationEnergyData && stationData.stationRealData">
+            <li>
+              <p>
+                <span class="material-icons-outlined text-teal-400 text-3xl">today</span>
+                <span>Energy Today:</span>
+                <span>
+                {{ getFormattedEnergyData(stationData.stationEnergyData.ed) }} kWh
+                </span>
+              </p>
+            </li>
+            <li>
+              <p>
+                <span class="material-icons-outlined text-teal-400 text-3xl">calendar_month</span>
+                <span>Energy This Month:</span>
+                <span>
+                  {{ getFormattedEnergyData(stationData.stationRealData.month_eq) }} kWh
+                </span>
+              </p>
+            </li>
+            <li>
+              <p>
+                <span class="material-icons-outlined text-teal-400 text-3xl">flash_on</span>
+                <span>Energy This Year:</span>
+                <span>
+                  {{ getFormattedEnergyData(stationData.stationRealData.year_eq) }} kWh
+                </span>
+              </p>
+            </li>
+            <li>
+              <p>
+                <span class="material-icons-outlined text-teal-400 text-3xl">solar_power</span>
+                <span>Lifetime Energy:</span>
+                <span>
+                  {{ getFormattedEnergyData(stationData.stationRealData.total_eq) }} kWh
+                </span>
+              </p>
+            </li>
+          </ul>
+        </p-fieldset>
+      </div>
+      <div class="border-2 rounded p-2" *ngIf="basicData.length > 0">
+        <p-fieldset legend="Graphics" [toggleable]="true">
+          <div class="text-center">
+            <p-calendar [(ngModel)]="stationData.chartCalendarDate" dateFormat="dd.mm.yy"
+                        inputStyleClass="border-2 p-2" (ngModelChange)="changeCalendarDate(stationData)"></p-calendar>
+          </div>
+          <p-chart type="bar" [data]="findBasicData(stationData.id)" [options]="basicOptions"></p-chart>
+        </p-fieldset>
+      </div>
+    </div>
+  </p-panel>
+</div>
