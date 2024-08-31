@@ -10,15 +10,16 @@ import {
 import type { AuthenticationService } from '@/authentication/services/authentication-service'
 
 export class HoymilesService {
-  private static apiUrl: string = import.meta.env.API_URL || ''
+  constructor(
+    private readonly _authenticationService: AuthenticationService,
+    private readonly _apiUrl: string
+  ) {}
 
-  constructor(private readonly _authenticationService: AuthenticationService) {}
-
-  public async getDailyData(sid: string, date: string): Promise<AxiosResponse<ArrayBuffer>> {
-    const url = 'https://neapi.hoymiles.com/pvm-data/api/0/station/data/count_power_by_day'
+  public async getDailyData(sid: string, date: string): Promise<ArrayBuffer> {
+    const url = `${import.meta.env.VITE_CHART_API_URL}/count_power_by_day`
     const token = await this._authenticationService.getToken()
 
-    return axios.post(
+    const response = await axios.post(
       url,
       { sid, date },
       {
@@ -29,15 +30,19 @@ export class HoymilesService {
         responseType: 'arraybuffer'
       }
     )
+
+    return response.data
   }
 
-  public async getStations(): Promise<AxiosResponse<HoymilesResponse<ListData<StationData>>>> {
-    const url = `${import.meta.env.BASE_URL}pvm/station_select_by_page`
+  public async getStations(): Promise<HoymilesResponse<ListData<StationData>>> {
+    const url = `${import.meta.env.VITE_API_URL}pvm/station_select_by_page`
     const token = await this._authenticationService.getToken()
-    return axios.post<HoymilesResponse<ListData<StationData>>>(HoymilesService.apiUrl, {
+    const response = await axios.post<HoymilesResponse<ListData<StationData>>>(this._apiUrl, {
       requestUrl: url,
       token: token
     })
+
+    return response.data
   }
 
   public async getMonthData(sid: string, date: string): Promise<ArrayBuffer> {
@@ -61,28 +66,25 @@ export class HoymilesService {
   public async getStationEnergyData(
     sids: string[]
   ): Promise<HoymilesResponse<StationEnergyData[]>> {
-    const url = `${import.meta.env.API_URL}pvmrd/rd_query`
+    const url = `${import.meta.env.VITE_API_URL}pvmrd/rd_query`
     const token = await this._authenticationService.getToken()
 
-    const response = await axios.post<HoymilesResponse<StationEnergyData[]>>(
-      HoymilesService.apiUrl,
-      {
-        requestUrl: url,
-        token: token,
-        body: {
-          sids
-        }
+    const response = await axios.post<HoymilesResponse<StationEnergyData[]>>(this._apiUrl, {
+      requestUrl: url,
+      token: token,
+      body: {
+        sids
       }
-    )
+    })
 
     return response.data
   }
 
   public async getStationRealData(sid: string): Promise<HoymilesResponse<StationRealData>> {
-    const url = `${import.meta.env.API_URL}pvm-data/data_count_station_real_data`
+    const url = `${import.meta.env.VITE_API_URL}pvm-data/data_count_station_real_data`
     const token = await this._authenticationService.getToken()
 
-    const response = await axios.post<HoymilesResponse<StationRealData>>(HoymilesService.apiUrl, {
+    const response = await axios.post<HoymilesResponse<StationRealData>>(this._apiUrl, {
       requestUrl: url,
       token: token,
       body: {

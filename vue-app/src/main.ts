@@ -11,12 +11,15 @@ import { HoymilesService } from '@/hoymiles/services/hoymiles-service'
 
 const app = createApp(App)
 
-const authenticationService = new AuthenticationService()
+const apiUrl = import.meta.env.VITE_BASE_APP_URL
 
-const hoymilesService = new HoymilesService(authenticationService)
+const authenticationService = new AuthenticationService(apiUrl)
+
+const hoymilesService = new HoymilesService(authenticationService, apiUrl)
 
 app.provide('authenticationService', authenticationService)
 app.provide('hoymilesService', hoymilesService)
+app.provide('apiUrl', apiUrl)
 
 app.use(PrimeVue, {
   theme: {
