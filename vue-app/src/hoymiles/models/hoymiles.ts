@@ -118,8 +118,8 @@ export class StationData {
   lack: number
   ak: string
   flag_map: any
-  stationEnergyData: StationEnergyData
-  stationRealData: StationRealData
+  stationEnergyData?: StationEnergyData
+  stationRealData?: StationRealData
 }
 
 export class StationEnergyData {
@@ -130,7 +130,7 @@ export class StationEnergyData {
 }
 
 export class StationRealData {
-  today_eq: string
+  today_eq: number
   month_eq: number
   year_eq: number
   total_eq: number
