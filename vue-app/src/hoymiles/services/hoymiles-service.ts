@@ -1,5 +1,4 @@
 ﻿import axios from 'axios'
-import type { AxiosResponse } from 'axios'
 import {
   HoymilesResponse,
   ListData,
@@ -89,6 +88,23 @@ export class HoymilesService {
       token: token,
       body: {
         sid
+      }
+    })
+
+    return response.data
+  }
+
+  public async getStationDetails(id: string): Promise<HoymilesResponse<StationData>> {
+    const url = `${import.meta.env.VITE_API_URL}pvm/station_find`
+    const token = await this._authenticationService.getToken()
+
+    const response = await axios.post<HoymilesResponse<StationData>>(this._apiUrl, {
+      requestUrl: url,
+      token: token,
+      body: {
+        body: {
+          id
+        }
       }
     })
 

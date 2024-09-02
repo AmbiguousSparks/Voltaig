@@ -73,7 +73,7 @@ export class ListData<T> {
 export class StationData {
   id: number
   gid: number
-  chartCalendarDate: Date
+  chartCalendarDate: Date = new Date()
   name: string
   type: number
   tz_id: number
