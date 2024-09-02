@@ -204,7 +204,7 @@ const getOptions = () => {
 <template>
   <Fluid>
     <Splitter StyleClass="w-full" v-if="layout === 'horizontal'">
-      <SplitterPanel class="flex items-center justify-center p-4" v-for="station in stationsData">
+      <SplitterPanel class="flex items-center justify-center p-4" v-for="station in stationsData" :key="station.id">
         <Card class="w-1/2">
           <template #header>
             <img
@@ -390,7 +390,7 @@ const getOptions = () => {
       </SplitterPanel>
     </Splitter>
     <Splitter StyleClass="w-full" v-else layout="vertical">
-      <SplitterPanel class="flex items-center justify-center" v-for="station in stationsData">
+      <SplitterPanel class="flex items-center justify-center" v-for="station in stationsData" :key="station.id">
         <Card class="w-1/2">
           <template #header>
             <img :alt="station.name" :src="'https://static.hoymiles.com/cfs/' + station.pic_path" />

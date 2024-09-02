@@ -30,8 +30,8 @@ abstract class Decoder<TData> implements DecoderInt<TData> {
   }
 
   protected getFloat(buf: Uint8Array): number {
-    let view = new DataView(new ArrayBuffer(4))
-    let bytes = buf.slice(this.position, this.position + 4)
+    const view = new DataView(new ArrayBuffer(4))
+    const bytes = buf.slice(this.position, this.position + 4)
     // reverse the bytes
     for (let i = 0; i < 4; i++) {
       view.setUint8(i, bytes[3 - i])

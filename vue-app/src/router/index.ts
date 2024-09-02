@@ -14,7 +14,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'Hoymiles',
-      component: () => import('../hoymiles/components/stations.vue')
+      component: () => import('../hoymiles/components/StationList.vue')
     }
   ]
 })
