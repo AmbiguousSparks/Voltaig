@@ -15,6 +15,10 @@ const router = createRouter({
       path: '/',
       name: 'Hoymiles',
       component: () => import('../hoymiles/components/StationList.vue')
+    },
+    {
+      path: '/:catchAll(.*)',
+      component: () => import('../hoymiles/components/StationList.vue')
     }
   ]
 })
