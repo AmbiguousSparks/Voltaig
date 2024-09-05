@@ -46,13 +46,49 @@ export class HoymilesService {
 
   public async getMonthData(sid: string, date: string): Promise<ArrayBuffer> {
     const url = 'https://neapi.hoymiles.com/pvm-data/api/0/station/data/count_eq_by_day_of_month'
+    const token = await this._authenticationService.getToken()
     const response = await axios.post(
       url,
       { sid, date },
       {
         headers: {
-          Authorization:
-            '2.nFrKMkY4S55wVtRXLz9axZlqoxOWcTVaaQW6Q7tlXFGwTgniK4kJdXlDSAsgmFGueiUTTCQIGba.0',
+          Authorization: token,
+          'Content-Type': 'application/json'
+        },
+        responseType: 'arraybuffer'
+      }
+    )
+
+    return response.data
+  }
+
+  public async getYearData(sid: string, date: string): Promise<ArrayBuffer> {
+    const url = 'https://neapi.hoymiles.com/pvm-data/api/0/station/data/count_eq_by_month_of_year'
+    const token = await this._authenticationService.getToken()
+    const response = await axios.post(
+      url,
+      { sid, date },
+      {
+        headers: {
+          Authorization: token,
+          'Content-Type': 'application/json'
+        },
+        responseType: 'arraybuffer'
+      }
+    )
+
+    return response.data
+  }
+
+  public async getTotalData(sid: string, date: string): Promise<ArrayBuffer> {
+    const url = 'https://neapi.hoymiles.com/pvm-data/api/0/station/data/count_eq_by_total_of_year'
+    const token = await this._authenticationService.getToken()
+    const response = await axios.post(
+      url,
+      { sid, date },
+      {
+        headers: {
+          Authorization: token,
           'Content-Type': 'application/json'
         },
         responseType: 'arraybuffer'

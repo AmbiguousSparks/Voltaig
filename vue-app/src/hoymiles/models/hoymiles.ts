@@ -151,3 +151,10 @@ export class HoymilesResponse<T> {
   data: T
   systemNotice: any
 }
+
+export enum ChartsType {
+  Month,
+  Day,
+  Year,
+  Lifetime
+}
